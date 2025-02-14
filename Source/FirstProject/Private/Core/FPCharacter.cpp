@@ -35,6 +35,8 @@ void AFPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	{
 		EnhancedInputComponent->BindAction(MoveActions, ETriggerEvent::Triggered, this, &AFPCharacter::Move);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AFPCharacter::Jump);
+
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AFPCharacter::Look);
 	}
 
 }
@@ -43,7 +45,14 @@ void AFPCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D Move = Value.Get<FVector2D>();
 
-	AddMovementInput(GetActorRightVector() * Move.X);
-	AddMovementInput(GetActorForwardVector() * Move.Y);
+	AddMovementInput(GetActorRightVector() * Move.X + GetActorForwardVector() * Move.Y);
+}
+
+void AFPCharacter::Look(const FInputActionValue& Value)
+{
+	const FVector2D Look = Value.Get<FVector2D>();
+
+	AddControllerYawInput(Look.X);
+	AddControllerPitchInput(-Look.Y);
 }
 
