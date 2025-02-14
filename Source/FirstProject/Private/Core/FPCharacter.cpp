@@ -2,6 +2,7 @@
 
 
 #include "Core/FPCharacter.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 AFPCharacter::AFPCharacter()
@@ -30,5 +31,20 @@ void AFPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(MoveActions, ETriggerEvent::Triggered, this, &AFPCharacter::Move);
+	}
+
+}
+
+void AFPCharacter::Move(const FInputActionValue& Value)
+{
+	const float Move = Value.Get<float>();
+
+	if (Move != 0.0f)
+	{
+		AddMovementInput(GetActorForwardVector() * Move);
+	}
 }
 

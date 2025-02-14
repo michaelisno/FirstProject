@@ -2,12 +2,15 @@
 
 
 #include "Core/FPPlayerController.h"
-#include "EhancedInputSubsytems.h"
+#include "EnhancedInputSubsystems.h"
 
-void FPPlayerController::BeginPlay()
+void AFPPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(MovementContext, 0);
+	}
 }
 
