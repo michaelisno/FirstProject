@@ -2,4 +2,12 @@
 
 
 #include "Core/FPPlayerController.h"
+#include "EhancedInputSubsytems.h"
+
+void FPPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+
+}
 
