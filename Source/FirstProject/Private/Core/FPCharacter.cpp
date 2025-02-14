@@ -34,17 +34,16 @@ void AFPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInputComponent->BindAction(MoveActions, ETriggerEvent::Triggered, this, &AFPCharacter::Move);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AFPCharacter::Jump);
 	}
 
 }
 
 void AFPCharacter::Move(const FInputActionValue& Value)
 {
-	const float Move = Value.Get<float>();
+	const FVector2D Move = Value.Get<FVector2D>();
 
-	if (Move != 0.0f)
-	{
-		AddMovementInput(GetActorForwardVector() * Move);
-	}
+	AddMovementInput(GetActorRightVector() * Move.X);
+	AddMovementInput(GetActorForwardVector() * Move.Y);
 }
 
